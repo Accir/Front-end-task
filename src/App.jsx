@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes } from "react-router-dom";
 import Landing from "./pages/landing/Landing";
-import { CHECKOUT_PATH } from "./util/paths";
+import { BASE_PATH, CHECKOUT_PATH } from "./util/paths";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
       <div className="container">
         <div className="bg-white m-4">
           <Routes>
-            <Route exact path="/" element={<Landing />}></Route>
+            <Route exact path={BASE_PATH} element={<Landing />}></Route>
             <Route path={CHECKOUT_PATH} element={<Checkout price={PRICE} />}></Route>
           </Routes>
         </div>

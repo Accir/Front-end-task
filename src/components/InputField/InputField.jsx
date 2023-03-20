@@ -38,7 +38,7 @@ export default function InputField({
           name={name}
           className={`${isError ? "border-rose-600" : "border-zinc-300"} ${
             icon && iconStart && "indent-5"
-          } border-solid border border-radius text-base outline-none font-normal p-2.5 w-full ${
+          } border-solid border rounded-custom text-base outline-none font-normal p-2.5 w-full ${
             !iconStart && "pr-6"
           }`}
         />
@@ -53,7 +53,7 @@ InputField.propTypes = {
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   name: PropTypes.string.isRequired,
   error: PropTypes.objectOf(PropTypes.string),
   icon: PropTypes.string,

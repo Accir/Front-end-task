@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import DatePicker from "../../components/DatePicker/DatePicker";
 import RadioGroup from "../../components/RadioGroup/RadioGroup";
 import axiosInstance from "../../util/axiosInstance";
-import { CHECKOUT } from "../../util/routes";
+import { CHECKOUT } from "../../util/endpoints";
 import { toast } from "react-toastify";
 
 export default function Checkout({ price, ...props }) {
@@ -20,54 +20,56 @@ export default function Checkout({ price, ...props }) {
       zipCode: "",
       birthDate: null,
       gender: "",
+      cardHolder: "",
+      cardNumber: "",
+      expirationDate: "",
+      cvv: "",
     },
     validationSchema: Yup.object({
       fullName: Yup.string()
-        .test("is-two-words", "Name and Surname are required", (value) => {
-          return value && value.split(" ").length >= 2;
-        })
-        .test("is-two-symbols", "Name and Surname should be at least 2 symbols", (value) => {
-          if (value) {
-            return value.split(" ").every((item) => {
-              return item.length >= 2;
-            });
-          }
-          return false;
-        }),
+        .test(
+          "is-two-words",
+          "Firstname and Lastname are required",
+          (value) => value && value.split(" ").length >= 2
+        )
+        .test(
+          "is-two-symbols",
+          "Firstname and Lastname should be at least 2 symbols",
+          (value) => value && value.split(" ").every((item) => item.length >= 2)
+        ),
       email: Yup.string().required("Email is required").email("Email is invalid"),
-      zipCode: Yup.string().test("zip-code-required", "Zip Code is required", (value) => {
-        return value && value.length >= 3;
-      }),
+      zipCode: Yup.string().test(
+        "zip-code-required",
+        "Zip Code is required",
+        (value) => value && value.length >= 3
+      ),
       birthDate: Yup.string().required("Birth date is required"),
       gender: Yup.string().required("Gender is required"),
       cardHolder: Yup.string().test(
         "card-holder-required",
         "Card Holder Name is required",
-        (value) => {
-          return value && value.length >= 3;
-        }
+        (value) => value && value.length >= 3
       ),
-      cardNumber: Yup.string().test("card-number-required", "Card Number is required", (value) => {
-        return value && value.length >= 3;
-      }),
+      cardNumber: Yup.string().test(
+        "card-number-required",
+        "Card Number is required",
+        (value) => value && value.length >= 3
+      ),
       expirationDate: Yup.string().test(
         "expiration-date-required",
         "Expiration Date is required",
-        (value) => {
-          return value && value.length >= 3;
-        }
+        (value) => value && value.length >= 3
       ),
-      cvv: Yup.string().test("cvv-required", "CVV is required", (value) => {
-        return value && value.length >= 3;
-      }),
+      cvv: Yup.string().required("CVV is required"),
     }),
     onSubmit: async (values) => {
       try {
         await axiosInstance.post(CHECKOUT, values).then(() => {
-          toast.success("Successfuly sent");
+          toast.success("Successfully sent");
+          formik.resetForm();
         });
       } catch (e) {
-        toast.error("Unexpected error has occured");
+        toast.error("Unexpected error has occurred");
       }
     },
     validateOnChange: false,
@@ -88,7 +90,7 @@ export default function Checkout({ price, ...props }) {
   return (
     <div className="p-6 md:p-9 md:mt-9 mt-0">
       <form onSubmit={formik.handleSubmit}>
-        <h3 className="font-bold text-center text-xl pb-9">Get your Car Insurance for ${price}</h3>
+        <h1 className="font-bold text-center text-xl pb-9">Get your Car Insurance for ${price}</h1>
         <InputField
           label="Full Name"
           type="text"
@@ -167,7 +169,7 @@ export default function Checkout({ price, ...props }) {
             />
             <InputField
               label="CVV"
-              type="text"
+              type="number"
               name="cvv"
               value={formik.values.cvv}
               onChange={formik.handleChange}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Listbox } from "@headlessui/react";
 import PropTypes from "prop-types";
 import arrows from "../../assets/images/arrows.svg";
@@ -17,6 +17,12 @@ export default function Dropdown({
   ...props
 }) {
   const [selected, setSelected] = useState(false);
+
+  useEffect(() => {
+    if (!value) {
+      setSelected(false);
+    }
+  });
 
   return (
     <Listbox

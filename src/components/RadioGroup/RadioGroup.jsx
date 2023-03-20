@@ -4,18 +4,27 @@ import { RadioGroup as Radio } from "@headlessui/react";
 
 export default function RadioGroup({ valueList, value, label, onChange, error, name, ...props }) {
   const [selected, setSelected] = useState(null);
+  const isError = error[name];
 
   useEffect(() => {
-    onChange(selected);
-  }, [selected]);
-  const isError = error[name];
+    if (!value) {
+      setSelected(false);
+    }
+  });
 
   return (
     <div className="mb-5">
       <label className="text-zinc-800 text-base font-bold pb-1" htmlFor={name}>
         {label}
       </label>
-      <Radio value={selected} onChange={setSelected} className="flex gap-2">
+      <Radio
+        value={selected}
+        onChange={(value) => {
+          setSelected(value);
+          onChange(value);
+        }}
+        className="flex gap-2"
+      >
         {valueList.map((item, key) => (
           <Radio.Option
             key={key}

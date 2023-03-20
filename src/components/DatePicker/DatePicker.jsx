@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Dropdown from "../Dropdown/Dropdown";
-import "./DatePicker.css";
 
 export default function DatePicker({ label, value, onChange, error, name, ...props }) {
   const monthNames = [
@@ -31,7 +30,7 @@ export default function DatePicker({ label, value, onChange, error, name, ...pro
         (i) => i + 1
       )
     );
-    if (!isValidDate(year, month, day)) {
+    if (!isValidDate(year, month, day) && value) {
       setDay(new Date(year, month + 1, 1).getDate());
     }
   }, [month, year]);
@@ -44,6 +43,14 @@ export default function DatePicker({ label, value, onChange, error, name, ...pro
       onChange(new Date(date.getTime() - date.getTimezoneOffset() * 60000));
     }
   }, [month, year, day]);
+
+  useEffect(() => {
+    if (!value) {
+      setDay(null);
+      setMonth(0);
+      setYear(0);
+    }
+  }, [value]);
 
   const currentYear = new Date().getFullYear();
   const range = (start, stop, step) => {

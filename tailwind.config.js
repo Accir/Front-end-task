@@ -21,6 +21,12 @@ module.exports = {
         "custom-light": "#8C8C8F",
         "custom-blue": "#2888E0",
       },
+      borderRadius: {
+        custom: "4.6px",
+      },
+      flexShrink: {
+        "2": "2",
+      },
     },
   },
   plugins: [],

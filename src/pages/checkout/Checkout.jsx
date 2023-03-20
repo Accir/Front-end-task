@@ -62,15 +62,16 @@ export default function Checkout({ price, ...props }) {
       ),
       cvv: Yup.string().required("CVV is required"),
     }),
-    onSubmit: async (values) => {
-      try {
-        await axiosInstance.post(CHECKOUT, values).then(() => {
+    onSubmit: (values) => {
+      axiosInstance
+        .post(CHECKOUT, values)
+        .then(() => {
           toast.success("Successfully sent");
           formik.resetForm();
+        })
+        .catch(() => {
+          toast.error("Unexpected error has occurred");
         });
-      } catch (e) {
-        toast.error("Unexpected error has occurred");
-      }
     },
     validateOnChange: false,
     validateOnBlur: false,

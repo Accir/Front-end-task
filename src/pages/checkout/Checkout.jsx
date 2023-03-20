@@ -29,12 +29,12 @@ export default function Checkout({ price, ...props }) {
       fullName: Yup.string()
         .test(
           "is-two-words",
-          "Firstname and Lastname are required",
+          "First Name and Last Name are required",
           (value) => value && value.split(" ").length >= 2
         )
         .test(
           "is-two-symbols",
-          "Firstname and Lastname should be at least 2 symbols",
+          "First Name and Last Name should be at least 2 symbols",
           (value) => value && value.split(" ").every((item) => item.length >= 2)
         ),
       email: Yup.string().required("Email is required").email("Email is invalid"),
